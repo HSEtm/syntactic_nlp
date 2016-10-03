@@ -28,11 +28,11 @@ public class Start {
 
 	public static void main(String[] args) {
 
-		//args = new String[] { "D:/Software for TM/syntactic_nlp/input" };
+		args = new String[] { "D:/Software for TM/syntactic_nlp/input/wiki.txt" };
 		// args = new String[] { "input" };
 		// args = new String[] { "D:/Software for
 		// TM/syntactic_nlp/input/00000.txt" };
-		// args = new String[] { "input/11111.txt" };
+//		args = new String[] { "input/11111.txt" };
 
 		if (args.length > 0) {
 
@@ -66,9 +66,9 @@ public class Start {
 
 							String fileName = filePath.getFileName().toString();
 
-							File outputFolder = new File(fileParentDirectory + "\\output");
+							File outputFolder = new File(fileParentDirectory + "/output");
 
-							File outputFile = new File(fileParentDirectory + "\\output\\" + fileName);
+							File outputFile = new File(fileParentDirectory + "/output/" + fileName);
 
 							outputFolder.mkdirs();
 
@@ -114,18 +114,12 @@ public class Start {
 										// / ",
 										// "/").replace("\\", "/").trim();
 
-										NLPNode[] nodes = decoder.decode(sentenceStr);
-
-										sentenceStr = sentenceStr.replace(".", "").replace(" / ", "/")
-												.replace("\\", "/").trim();
+										sentenceStr = sentenceStr.replace('\u2010', '-').replace('\u2011', '-').replace('\uFFFD', '-').replace('\u202F', '-').replace(".", "").replace("\\", "/").replace(" / ", "/").trim();
 
 										if (sentenceStr.length() > 0) {
+											
+											NLPNode[] nodes = decoder.decode(sentenceStr);
 
-											// create an empty Annotation just
-											// with
-											// the
-											// given
-											// text
 											Annotation sentence = new Annotation(sentenceStr);
 
 											// run all Annotators on this text
@@ -169,17 +163,17 @@ public class Start {
 												int j = i;
 
 												if (depid - rootDepid == 1) {
-													while (rootToken.indexOf(nodes[i].getWordForm()) < 0
-															&& nodes[i].getWordForm().indexOf(rootToken) < 0
+													while (!(rootToken.replace(".", "").trim().toLowerCase() .equals(nodes[i].getWordForm().replace(".", "").trim().toLowerCase()))
 															&& i < nodes.length - 1) {
 														i++;
 													}
 
-													if (rootToken.indexOf(nodes[i].getWordForm()) >= 0
-															|| nodes[i].getWordForm().indexOf(rootToken) >= 0) {
+													if (rootToken.replace(".", "").trim().toLowerCase() .equals(nodes[i].getWordForm().replace(".", "").trim().toLowerCase())
+															&& i - j < 10) {
 														rootNer = nodes[i].getNamedEntityTag();
 													} else
 														i = j;
+													
 
 													try (FileWriter fw = new FileWriter(outputFile, true);
 															BufferedWriter bw = new BufferedWriter(fw);
@@ -193,15 +187,18 @@ public class Start {
 													}
 
 												}
+												
+												j = i;
 
-												while (token.indexOf(nodes[i].getWordForm()) < 0
-														&& nodes[i].getWordForm().indexOf(token) < 0
+												while (!(token.replace(".", "").trim().toLowerCase().equals(nodes[i].getWordForm().replace(".", "").trim().toLowerCase()))
 														&& i < nodes.length - 1) {
+
+//													System.out.println(token.replace(".", "").trim().toLowerCase() + " - " + nodes[i].getWordForm().replace(".", "").trim().toLowerCase());
 													i++;
 												}
 
-												if (token.indexOf(nodes[i].getWordForm()) >= 0
-														|| nodes[i].getWordForm().indexOf(token) >= 0) {
+												if (token.replace(".", "").trim().toLowerCase() .equals(nodes[i].getWordForm().replace(".", "").trim().toLowerCase())
+														&& i - j < 10) {
 													ner = nodes[i].getNamedEntityTag();
 												} else
 													i = j;
@@ -233,14 +230,13 @@ public class Start {
 											if (rootOnly) {
 												int j = i;
 
-												while (rootToken.indexOf(nodes[i].getWordForm()) < 0
-														&& nodes[i].getWordForm().indexOf(rootToken) < 0
+												while (!(rootToken.replace(".", "").trim().toLowerCase() .equals(nodes[i].getWordForm().replace(".", "").trim().toLowerCase()))
 														&& i < nodes.length - 1) {
 													i++;
 												}
 
-												if (rootToken.indexOf(nodes[i].getWordForm()) >= 0
-														|| nodes[i].getWordForm().indexOf(rootToken) >= 0) {
+												if (rootToken.replace(".", "").trim().toLowerCase() .equals(nodes[i].getWordForm().replace(".", "").trim().toLowerCase())
+														&& i - j < 10) {
 													rootNer = nodes[i].getNamedEntityTag();
 												} else
 													i = j;
