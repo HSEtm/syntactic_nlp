@@ -28,7 +28,7 @@ public class Start {
 
 	public static void main(String[] args) {
 
-		args = new String[] { "D:/Software for TM/syntactic_nlp/input/wiki.txt" };
+//		args = new String[] { "D:/Software for TM/syntactic_nlp/input/wiki.txt" };
 		// args = new String[] { "input" };
 		// args = new String[] { "D:/Software for
 		// TM/syntactic_nlp/input/00000.txt" };
@@ -114,7 +114,12 @@ public class Start {
 										// / ",
 										// "/").replace("\\", "/").trim();
 
-										sentenceStr = sentenceStr.replace('\u2010', '-').replace('\u2011', '-').replace('\uFFFD', '-').replace('\u202F', '-').replace(".", "").replace("\\", "/").replace(" / ", "/").trim();
+										sentenceStr = sentenceStr.replace('\u2010', '-').replace('\u2011', '-').
+												replace('\uFFFD', '-').replace('\u202F', '-').replace(".", "").
+												replace("\\", "/").replace(" / ", "/").
+//												replace('\uF02D', '-').
+//												replace('\u9D00', '-').replace('\uFFFD', '-').replace('\uFFFC', '-').
+												trim();
 
 										if (sentenceStr.length() > 0) {
 											
