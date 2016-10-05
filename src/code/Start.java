@@ -28,11 +28,7 @@ public class Start {
 
 	public static void main(String[] args) {
 
-//		args = new String[] { "D:/Software for TM/syntactic_nlp/input/wiki.txt" };
-		// args = new String[] { "input" };
-		// args = new String[] { "D:/Software for
-		// TM/syntactic_nlp/input/00000.txt" };
-//		args = new String[] { "input/11111.txt" };
+//		args = new String[] { "input" };
 
 		if (args.length > 0) {
 
@@ -62,13 +58,13 @@ public class Start {
 						if (Files.isRegularFile(filePath)) {
 							System.out.println(filePath);
 
-							String fileParentDirectory = filePath.getParent().getParent().toString();
+							String fileParentDirectory = filePath.getParent().toString();
 
 							String fileName = filePath.getFileName().toString();
 
-							File outputFolder = new File(fileParentDirectory + "/output");
+							File outputFolder = new File(fileParentDirectory + "_output");
 
-							File outputFile = new File(fileParentDirectory + "/output/" + fileName);
+							File outputFile = new File(fileParentDirectory + "_output/" + fileName);
 
 							outputFolder.mkdirs();
 
