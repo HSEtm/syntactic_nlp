@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 import edu.emory.mathcs.nlp.common.util.Joiner;
 import edu.emory.mathcs.nlp.component.template.node.NLPNode;
@@ -28,7 +30,7 @@ public class Start {
 
 	public static void main(String[] args) {
 
-//		args = new String[] { "input" };
+		args = new String[] { "input/test.txt" };
 
 		if (args.length > 0) {
 
