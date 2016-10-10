@@ -9,16 +9,14 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.text.Normalizer;
-import java.util.regex.Pattern;
 
-import edu.emory.mathcs.nlp.common.util.Joiner;
+//import edu.emory.mathcs.nlp.common.util.Joiner;
 import edu.emory.mathcs.nlp.component.template.node.NLPNode;
 import edu.emory.mathcs.nlp.decode.DecodeConfig;
 import edu.emory.mathcs.nlp.decode.NLPDecoder;
-import edu.emory.mathcs.nlp.tokenization.EnglishTokenizer;
-import edu.emory.mathcs.nlp.tokenization.Token;
-import edu.emory.mathcs.nlp.tokenization.Tokenizer;
+//import edu.emory.mathcs.nlp.tokenization.EnglishTokenizer;
+//import edu.emory.mathcs.nlp.tokenization.Token;
+//import edu.emory.mathcs.nlp.tokenization.Tokenizer;
 import edu.stanford.nlp.io.*;
 import edu.stanford.nlp.ling.*;
 import edu.stanford.nlp.pipeline.*;
@@ -30,7 +28,7 @@ public class Start {
 
 	public static void main(String[] args) {
 
-		args = new String[] { "input/test.txt" };
+//		args = new String[] { "input/test4.txt" };
 
 		if (args.length > 0) {
 
@@ -38,7 +36,7 @@ public class Start {
 			props.setProperty("annotators", "tokenize, ssplit, pos, lemma, depparse");
 			StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
-			Tokenizer tokenizer = new EnglishTokenizer();
+//			Tokenizer tokenizer = new EnglishTokenizer();
 
 			String configUrl = "config/config.xml";
 			DecodeConfig config = null;
@@ -94,8 +92,10 @@ public class Start {
 
 							try {
 								in = IOUtils.getInputStreamFromURLOrClasspathOrFileSystem(filePath.toString());
+								
+								List<NLPNode[]> sentences = decoder.decodeDocument(in);
 
-								for (List<Token> sentences : tokenizer.segmentize(in)) {
+								for (NLPNode[] nodes : sentences) {
 									try {
 										/*
 										 * for (Token token : sentences) {
@@ -104,8 +104,17 @@ public class Start {
 										 * 
 										 * System.out.println();
 										 */
-
-										String sentenceStr = Joiner.join(sentences, " ");
+										
+										StringBuilder sb = new StringBuilder();
+										
+										for (int g = 1; g < nodes.length; g++)
+										{
+											sb.append(nodes[g].getWordForm() + " ");
+										}
+										
+										String sentenceStr = sb.toString();
+												
+//										String sentenceStr = Joiner.join(nodes, " ");
 										// sentenceStr =
 										// sentenceStr.replace(".",
 										// "").replace("
@@ -113,18 +122,20 @@ public class Start {
 										// "/").replace("\\", "/").trim();
 
 										sentenceStr = sentenceStr.replace('\u2010', '-').replace('\u2011', '-').
-												replace('\uFFFD', '-').replace('\u202F', '-').replace(".", "").
-												replace("\\", "/").replace(" / ", "/").
+												replace('\uFFFD', '-').replace('\u202F', '-').
+//												replace(".", "^").
+//												replace("\\", "/").replace(" / ", "/").
 //												replace('\uF02D', '-').
 //												replace('\u9D00', '-').replace('\uFFFD', '-').replace('\uFFFC', '-').
 												trim();
 
 										if (sentenceStr.length() > 0) {
 											
-											NLPNode[] nodes = decoder.decode(sentenceStr);
+//											NLPNode[] nodes = decoder.decode(sentenceStr);
 
 											Annotation sentence = new Annotation(sentenceStr);
-
+//											Annotation sentence = new Annotation("");
+											
 											// run all Annotators on this text
 											pipeline.annotate(sentence);
 
