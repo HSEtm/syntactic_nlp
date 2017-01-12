@@ -27,7 +27,6 @@ import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 public class Start {
 
 	public static void main(String[] args) {
-
 //		args = new String[] { "input", "true" };
 
 		Logging logging = new Logging();
@@ -122,12 +121,15 @@ public class Start {
 											for (int g = 1; g < nodes.length; g++) {
 												sb.append(nodes[g].getWordForm() + " ");
 											}
-
+											
 											String sentenceStr = sb.toString();
-
-											sentenceStr = sentenceStr.replace('\u2010', '-').replace('\u2011', '-')
-													.replace('\uFFFD', '-').replace('\u202F', '-').replace(" - ", "-")
-													.replace(" / ", "/").trim();
+											
+											// list of symbols from http://www.fileformat.info/info/unicode/category/Pd/list.htm
+											sentenceStr = sentenceStr
+													.replaceAll("[\u002D\u058A\u05BE\u1400\u1806\u2010\u2011\u2012\u2013\u2014\u2015\u2E17\u2E1A\u2E3A\u2E3B\u2E40\u301C\u3030\u30A0\uFE31\uFE32\uFE58\uFE63\uFF0D]", "-")
+													.replace('\u2010', '-').replace('\u2011', '-')
+													.replace('\uFFFD', '-').replace('\u202F', '-')
+													.replace(" - ", "-").replace(" / ", "/").trim();
 
 											if (sentenceStr.length() > 0) {
 												Annotation sentence = new Annotation(sentenceStr);
