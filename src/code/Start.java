@@ -27,7 +27,7 @@ import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 public class Start {
 
 	public static void main(String[] args) {
-//		args = new String[] { "input/3.txt", "true" };
+//		args = new String[] { "input", "true" };
 
 		Logging logging = new Logging();
 		logging.setLogErrors(false);
@@ -187,7 +187,7 @@ public class Start {
 													boolean rootOnly = true;
 
 													for (SemanticGraphEdge edge : dependencies.edgeListSorted()) {
-														rootOnly = false;
+//														rootOnly = false;
 
 														String token = edge.getDependent().word();
 														String lemma = edge.getDependent().lemma();
@@ -235,6 +235,7 @@ public class Start {
 														int j = i;
 
 														if (depid - rootDepid == 1) {
+															rootOnly = false;
 															while (!(rootToken.replace(".", "").trim()
 																	.toLowerCase().equals(nodes[i].getWordForm()
 																			.replace(".", "").trim().toLowerCase()))
